@@ -22,6 +22,18 @@ func (p *Path) GetPath() string {
 	return p.path
 }
 
+// Exists returns whether the given file or directory exists
+func (p *Path) Exists() bool {
+	_, err := os.Stat(p.path)
+	if err == nil {
+		return true
+	}
+	if os.IsNotExist(err) {
+		return false
+	}
+	return false
+}
+
 func (p *Path) IsFileOrDir() (fileOrDir int, ok bool) {
 	fi, err := os.Stat(p.path)
 	if err != nil {

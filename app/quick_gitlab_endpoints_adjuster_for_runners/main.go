@@ -1,0 +1,1 @@
+package quick_gitlab_endpoints_adjuster_for_runners

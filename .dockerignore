@@ -1,0 +1,3 @@
+app/cicd_envsubst/bin
+app/deploy_agent/bin
+go

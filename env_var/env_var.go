@@ -14,6 +14,11 @@ func New(name string) *EnvVar{
 	}
 }
 
+func (e *EnvVar) SetName(name string) *EnvVar{
+	e.name = name
+	return e
+}
+
 type EnvVar struct{
 	name string
 }

@@ -1,4 +1,4 @@
-package network
+package socket
 
 type Protocol string
 const (

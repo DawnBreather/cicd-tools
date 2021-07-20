@@ -9,8 +9,14 @@ import (
 
 var _logger = logger.New()
 
-func newConfig() aws.Config {
-	cfg, err := config.LoadDefaultConfig(context.TODO())
+func newConfig(region string) aws.Config {
+	var cfg aws.Config
+	var err error
+	if region == "" {
+		cfg, err = config.LoadDefaultConfig(context.TODO())
+	} else {
+		cfg, err = config.LoadDefaultConfig(context.TODO(), config.WithRegion(region))
+	}
 	if err != nil {
 		_logger.Fatalf("unable to load SDK config: %v", err)
 	}

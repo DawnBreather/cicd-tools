@@ -41,7 +41,7 @@ func (r *REST) SubmitGET() *resty.Response {
 		SetHeader("Accept", "application/json").
 		Get(r.endpoint)
 	if err != nil {
-		_logger.Errorf("Unable to submit GET request to endpoint {%s}: %v", r.endpoint, err)
+		_logger.Errorf("Unable to submit GET request to endpoint { %s }: %v", r.endpoint, err)
 	}
 
 	return resp

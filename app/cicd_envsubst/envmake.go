@@ -30,7 +30,7 @@ func ExecuteEnvMaker(){
 	var allMatches []string
 
 
-	_logger.Infof("Compiling env file { %s } based on the placeholders found in: { %v }", strings.Join(os.Args[2:], ", "))
+	_logger.Infof("Compiling env file { %s } based on the placeholders found in: { %v }", envDestination, strings.Join(pathsForProcessing, ", "))
 	_logger.Infof("PROCESSING")
 
 	for _, pfp := range pathsForProcessing {
@@ -60,7 +60,7 @@ func ExecuteEnvMaker(){
 		} else {
 			val = "{{" + envVarPlaceholderName + "}}"
 		}
-		destinationFileContent += fmt.Sprintf("%s = %s\n", envVarPlaceholderName, val)
+		destinationFileContent += fmt.Sprintf("%s=%s\n", envVarPlaceholderName, val)
 	}
 
 	fDestination.

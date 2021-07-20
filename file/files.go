@@ -1,24 +1,27 @@
 package file
 
 import (
+	path2 "github.com/DawnBreather/go-commons/path"
 	"log"
 	"os"
 	"path/filepath"
 	"regexp"
 )
 
-func FindFiles(path, pattern string) []os.FileInfo {
+func FindFilesByRegexpRecursively(basePath, pattern string) []*File {
 	libRegEx, e := regexp.Compile(pattern)
 	if e != nil {
 		log.Fatal(e)
 	}
 
-	var files []os.FileInfo
+	var resFiles []*File
 
-	e = filepath.Walk(path, func(path string, info os.FileInfo, err error) error {
+	e = filepath.Walk(basePath, func(path string, info os.FileInfo, err error) error {
 		if err == nil && libRegEx.MatchString(info.Name()) {
-			files = append(files, info)
-			//println(info.Name())
+			pth := path2.Path{}
+			if pth.SetPath(path).IsFile() {
+				resFiles = append(resFiles, getFileFromPath(pth))
+			}
 		}
 		return nil
 	})
@@ -26,5 +29,43 @@ func FindFiles(path, pattern string) []os.FileInfo {
 		log.Fatal(e)
 	}
 
-	return files
+	return resFiles
+}
+
+func FindFilesRecursively(basePath string) []*File {
+	var e error
+	var res []*File
+
+	e = filepath.Walk(basePath, func(path string, info os.FileInfo, err error) error {
+		if err == nil {
+			var pth = path2.Path{}
+			if pth.SetPath(path).IsFile(){
+				f := getFileFromPath(pth)
+				res = append(res, f)
+			}
+		}
+		return nil
+	})
+	if e != nil {
+		log.Fatal(e)
+	}
+
+	return res
+}
+
+func RemoveFilesRecursively(basePath string) []*File {
+	var res []*File
+
+	res = FindFilesRecursively(basePath)
+	for _, f := range res {
+		f.Delete()
+	}
+
+	return res
+}
+
+func getFileFromPath(p path2.Path) *File{
+	var f = File{}
+	f.SetPath(p.GetPath())
+	return &f
 }

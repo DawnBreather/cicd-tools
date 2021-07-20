@@ -4,9 +4,7 @@ ENV CGO_ENABLED=0
 COPY . .
 ENV GOOS=linux
 ENV GOARCH=amd64
-RUN ls -l
-RUN GOOS=${GOOS} GOARCH=${GOARCH} go build -o /out/envsubst main.go
+RUN GOOS=${GOOS} GOARCH=${GOARCH} go build -o /out/deploy-agent main.go
 
-FROM alpine
-COPY --from=build /out/envsubst /usr/bin
-
+FROM docker/compose
+COPY --from=build /out/deploy-agent /usr/bin

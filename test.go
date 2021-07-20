@@ -8,9 +8,9 @@ import (
 )
 
 func testFindFiles() {
-	files := file.FindFiles(`c:\lab\buildtools\helpers\golang\commons\go\bin\test\find_files`, `([.]env([.][a-zA-Z0-9])*)|(docker-compose.yml)`)
+	files := file.FindFilesByRegexpRecursively(`c:\lab\buildtools\helpers\golang\commons\go\bin\test\find_files`, `([.]env([.][a-zA-Z0-9])*)|(docker-compose.yml)`)
 	for _, f := range files {
-		fmt.Println(f.Name())
+		fmt.Println(f.GetPath())
 	}
 }
 
